@@ -23,8 +23,8 @@ jobs:
           set -e
           cd ~
 
-          if [ ! -d "awscanvaschart/.git" ]; then
-            rm -rf awscanvaschart
+          if [ ! -d "AwsCanvasChart/.git" ]; then
+            rm -rf AwsCanvasChart
             git clone https://github.com/jaitrinity/AwsCanvasChart.git
           fi
 
