@@ -23,22 +23,22 @@ jobs:
           set -e
           cd ~
 
-          if [ ! -d "AwsCanvasChart/.git" ]; then
-            rm -rf AwsCanvasChart
+          if [ ! -d "awscanvaschart/.git" ]; then
+            rm -rf awscanvaschart
             git clone https://github.com/jaitrinity/AwsCanvasChart.git
           fi
 
-          cd AwsCanvasChart
+          cd awscanvaschart
           git pull origin main
 
-          docker stop AwsCanvasChart || true
-          docker rm AwsCanvasChart || true
-          docker rmi AwsCanvasChart || true
+          docker stop awscanvaschart || true
+          docker rm awscanvaschart || true
+          docker rmi awscanvaschart || true
 
-          docker build --no-cache -t AwsCanvasChart .
+          docker build --no-cache -t awscanvaschart .
           docker run -d \
             --restart unless-stopped \
             -p 80:80 \
-            --name AwsCanvasChart \
-            AwsCanvasChart
+            --name awscanvaschart \
+            awscanvaschart
 
