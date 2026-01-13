@@ -28,7 +28,7 @@ jobs:
             git clone https://github.com/jaitrinity/AwsCanvasChart.git
           fi
 
-          cd awscanvaschart
+          cd AwsCanvasChart
           git pull origin main
 
           docker stop awscanvaschart || true
