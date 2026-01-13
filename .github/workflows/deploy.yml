@@ -1,0 +1,44 @@
+name: Deploy Angular App to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Deploy to EC2
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ec2-user
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: |
+          set -e
+          cd ~
+
+          if [ ! -d "AwsCanvasChart/.git" ]; then
+            rm -rf AwsCanvasChart
+            git clone https://github.com/jaitrinity/AwsCanvasChart.git
+          fi
+
+          cd AwsCanvasChart
+          git pull origin main
+
+          docker stop AwsCanvasChart || true
+          docker rm AwsCanvasChart || true
+          docker rmi AwsCanvasChart || true
+
+          docker build --no-cache -t AwsCanvasChart .
+          docker run -d \
+            --restart unless-stopped \
+            -p 80:80 \
+            --name AwsCanvasChart \
+            AwsCanvasChart
+
